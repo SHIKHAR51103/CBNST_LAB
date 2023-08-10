@@ -1,0 +1,133 @@
+TASK 1
+
+Q1. WRITE AC PROGRAM TO CONVERT A DECIMAL NO. TO BINARY NO. .
+
+#include <stdio.h>
+
+int main()
+{
+    int num, binary[100] , i=0;
+    
+    printf(" ENTER A DECIMAL NO. : ");
+    scanf("%d", &num);
+    
+    if (num==0)
+        {
+             printf(" BINARY : 0 ");
+             return 0 ;
+        }
+    
+    while( num > 0)
+    {
+        binary[i]=num%2;
+        num=num/2;
+        i++;
+        
+    }
+    
+    printf(" BINARY : ");
+    for(int j=i-1 ; j>=0 ; j--)
+        printf("%d ", binary[j]);
+        
+        return 0;
+        
+}
+
+Q2. WRTE A C PROGRAM TO DEVELOP A CALCULATOR USING FUNCTIONS .
+NOTE : THE OUTPUT SHOULD BE A REAL POSITIVE NUMBER ( INFINITY SHOULD BE DISCARDED)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+task 2
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    double a, b, c;
+    double d , r1 , r2 , rp , ip;
+    
+    d=b*b-4*a*c;
+    
+    if(d>0)
+    {
+        r1=(-b + sqrt(d)) / (2*a);
+        r2=(-b - sqrt(d)) / (2*a);
+        
+        printf(" ROOT 1 : %.2lf " , r1);
+        printf(" ROOT 2 : %.2lf " , r2);
+
+    }
+    
+    else if(d==0)
+    {
+        r1=-b/(2*a);
+        printf("ROOT 1 : ROOT 2 : %.2lf" , r1);
+        
+    }
+    
+    else 
+    {
+        rp=-b/(2*a);
+        ip=sqrt(-d)/(2*a);
+        printf(" ROOT 1 : %.2lf + %.2lf", rp, ip);
+        printf(" ROOT 2 : %.2lf + %.2lf", rp, ip);
+        
+        
+        
+        
+    }
+    
+    return 0; 
+}
+
+
