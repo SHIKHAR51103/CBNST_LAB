@@ -33,101 +33,146 @@ int main()
         
 }
 
-Q2. WRTE A C PROGRAM TO DEVELOP A CALCULATOR USING FUNCTIONS .
+
+
+Q2. WRITE A C PROGRAM TO PRINT ALL THE VOWELS PRESENT IN THE ENTERED  STRING.
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char input[100];
+    printf("Enter a string: ");
+    fgets(input, sizeof(input), stdin);  // Read the input string
+
+    printf("Vowels in the string: ");
+    for (int i = 0; i < strlen(input); i++) {
+        char c = tolower(input[i]);  // Convert the character to lowercase
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            printf("%c ", input[i]);
+        }
+    }
+
+    printf("\n");
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+Q3. WRTE A C PROGRAM TO DEVELOP A CALCULATOR USING FUNCTIONS .
 NOTE : THE OUTPUT SHOULD BE A REAL POSITIVE NUMBER ( INFINITY SHOULD BE DISCARDED)
 
+#include <stdio.h>
+#include <math.h>
+
+
+double add(double a, double b) {
+    return a + b;
+}
+
+
+double subtract(double a, double b) {
+    return a - b;
+}
+
+
+double multiply(double a, double b) {
+    return a * b;
+}
+
+
+double divide(double a, double b) {
+    if (b != 0) {
+        return a / b;
+    } else {
+        printf("Division by zero is not allowed.\n");
+        return 0.0;
+    }
+}
+
+int main() {
+    double num1, num2;
+    char operator;
+
+    printf("Enter the first number: ");
+    scanf("%lf", &num1);
+
+    printf("Enter an operator (+, -, *, /): ");
+    scanf(" %c", &operator);
+
+    printf("Enter the second number: ");
+    scanf("%lf", &num2);
+
+    double result;
+
+    switch (operator) {
+        case '+':
+            result = add(num1, num2);
+            break;
+        case '-':
+            result = subtract(num1, num2);
+            break;
+        case '*':
+            result = multiply(num1, num2);
+            break;
+        case '/':
+            result = divide(num1, num2);
+            break;
+        default:
+            printf("Invalid operator.\n");
+            return 1;
+    }
+
+    if (result != INFINITY) {
+        printf("Result: %.2lf\n", result);
+    }
+
+    return 0;
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-task 2
-
-
-
-
-
+TASK 2 
 
 
 
 #include <stdio.h>
 #include <math.h>
 
-int main()
-{
+int main() {
     double a, b, c;
-    double d , r1 , r2 , rp , ip;
-    
-    d=b*b-4*a*c;
-    
-    if(d>0)
-    {
-        r1=(-b + sqrt(d)) / (2*a);
-        r2=(-b - sqrt(d)) / (2*a);
-        
-        printf(" ROOT 1 : %.2lf " , r1);
-        printf(" ROOT 2 : %.2lf " , r2);
+    double d, r1, r2, rp, ip;
 
+    printf("Enter coefficients a, b, and c of the quadratic equation (ax^2 + bx + c = 0):\n");
+    scanf("%lf %lf %lf", &a, &b, &c);
+
+    d = b * b - 4 * a * c;
+
+    if (d > 0) {
+        r1 = (-b + sqrt(d)) / (2 * a);
+        r2 = (-b - sqrt(d)) / (2 * a);
+        printf("Root 1: %.2lf\n", r1);
+        printf("Root 2: %.2lf\n", r2);
+    } else if (d == 0) {
+        r1 = -b / (2 * a);
+        printf("Root 1: Root 2: %.2lf\n", r1);
+    } else {
+        rp = -b / (2 * a);
+        ip = sqrt(-d) / (2 * a);
+        printf("Root 1: %.2lf + %.2lfi\n", rp, ip);
+        printf("Root 2: %.2lf - %.2lfi\n", rp, ip);
     }
-    
-    else if(d==0)
-    {
-        r1=-b/(2*a);
-        printf("ROOT 1 : ROOT 2 : %.2lf" , r1);
-        
-    }
-    
-    else 
-    {
-        rp=-b/(2*a);
-        ip=sqrt(-d)/(2*a);
-        printf(" ROOT 1 : %.2lf + %.2lf", rp, ip);
-        printf(" ROOT 2 : %.2lf + %.2lf", rp, ip);
-        
-        
-        
-        
-    }
-    
-    return 0; 
+
+    return 0;
 }
-
-
