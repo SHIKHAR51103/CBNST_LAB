@@ -1,0 +1,79 @@
+Bisection Method Definition
+
+1 The bisection method is used to find the roots of a polynomial equation. 
+2 It separates the interval and subdivides the interval in which the root of the equation lies. 
+3 The principle behind this method is the intermediate theorem for continuous functions. 
+4 It works by narrowing the gap between the positive and negative intervals until it closes in on the correct answer.
+
+
+Bisection Method Algorithm
+
+For any continuous function f(x),
+
+1 Find two points, say a and b such that a < b and f(a)* f(b) < 0
+2 Find the midpoint of a and b, say “t”
+3 t is the root of the given function if f(t) = 0; else follow the next step
+4 Divide the interval [a, b] – If f(t)*f(a) <0, there exist a root between t and a
+5 – else if f(t) *f (b) < 0, there exist a root between t and b
+6 Repeat above three steps until f(t) = 0.
+
+**The bisection method is an approximation method to find the roots of the given equation by repeatedly dividing the interval. 
+**This method will divide the interval until the resulting interval is found, which is extremely small.
+
+
+
+
+
+# IMPLEMENT BISECTION METHOD USING C PROGRAM
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+// Function for which we want to find the root
+double function(double x) {
+    return x*x - 4; // Example function: x^2 - 4
+}
+
+// Bisection method algorithm
+double bisection(double a, double b, double tolerance) {
+    double c;
+
+    while ((b - a) >= tolerance) {
+        c = (a + b) / 2;
+
+        if (function(c) == 0.0) {
+            break;
+        } else if (function(c) * function(a) < 0) {
+            b = c;
+        } else {
+            a = c;
+        }
+    }
+    return c;
+}
+
+int main() {
+    double a, b, root, tolerance;
+
+    printf("Enter interval [a, b]: ");
+    scanf("%lf %lf", &a, &b);
+
+    printf("Enter tolerance: ");
+    scanf("%lf", &tolerance);
+
+    if (function(a) * function(b) >= 0) {
+        printf("Invalid interval! Function values at endpoints have same sign.\n");
+        return 1;
+    }
+
+    root = bisection(a, b, tolerance);
+    printf("Approximate root: %lf\n", root);
+
+    return 0;
+}
+
+
+
+
