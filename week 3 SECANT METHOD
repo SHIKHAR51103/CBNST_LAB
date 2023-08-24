@@ -1,0 +1,70 @@
+SECANT METHOD : The secant method is a numerical technique used to approximate the roots of a real-valued function. 
+It's an iterative method that improves upon the idea of the bisection method by using a line that passes through two points on the function curve to estimate the root.
+
+
+ALGORITHM :
+
+
+
+
+1 Choose two initial guesses, x0 and x1, such that f(x0) and f(x1) have opposite signs.
+2 Compute the secant line passing through (x0, f(x0)) and (x1, f(x1)).
+3 The intersection of the secant line with the x-axis gives an improved approximation, x2, to the root.
+4 Update x0 and x1 by shifting them to x1 and x2, respectively.
+5 Repeat steps 2-4 until the approximation is sufficiently accurate or a predefined number of iterations is reached.
+6 The formula to compute the next approximation, x2, using the secant method is given by:x= x1 - [(x0 - x1)/ (f(x0) - f(x1)]f(x1).
+
+
+
+PROGRAM : 
+
+#include <stdio.h>
+#include <math.h>
+
+#define EPSILON 1e-6
+
+// Define the function for which you want to find the root
+double f(double x) {
+    return x * x - 4; // Example function: x^2 - 4
+}
+
+double secantMethod(double x0, double x1, int maxIter) {
+    double x2, f0, f1;
+
+    for (int i = 0; i < maxIter; i++) {
+        f0 = f(x0);
+        f1 = f(x1);
+
+        x2 = x1 - (f1 * (x1 - x0)) / (f1 - f0);
+
+        if (fabs(f(x2)) < EPSILON) {
+            printf("Root found at x = %lf\n", x2);
+            return x2;
+        }
+
+        x0 = x1;
+        x1 = x2;
+    }
+
+    printf("Root could not be found within maximum iterations.\n");
+    return NAN;
+}
+
+int main() {
+    double x0, x1;
+    int maxIter;
+
+    printf("Enter initial guess x0: ");
+    scanf("%lf", &x0);
+
+    printf("Enter initial guess x1: ");
+    scanf("%lf", &x1);
+
+    printf("Enter maximum number of iterations: ");
+    scanf("%d", &maxIter);
+
+    double root = secantMethod(x0, x1, maxIter);
+
+    return 0;
+}
+
