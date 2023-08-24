@@ -15,6 +15,66 @@ ALGRITHM :
 
 
 
-IMPLEMENTATION OF SECANT METHOD BY C PROGRAM 
+IMPLEMENTATION OF REGULA FALSI  METHOD BY C PROGRAM 
 
-#
+#include <stdio.h>
+#include <math.h>
+
+#define EPSILON 1e-6
+#define MAX_ITER 100
+
+double f(double x){
+    return x*x-4;
+    
+}
+
+double regulaFalsi(double a, double b){
+    double c, f_a, f_b, f_c;
+    
+    for(int i=0 ; i<MAX_ITER ; i++)
+    {
+        f_a=f(a);
+        f_b=f(b);
+        
+        c=(a*f_b - b*f_a)/ (f_b -f_a);
+        f_c=f_c;
+    
+    
+        if(fabs(f_c) < EPSILON){
+            printf(" ROOT FOUND AT X = %lf\n",c);
+            return c;
+            
+        }
+    
+        if(f_a * f_c < 0)
+            
+                
+            
+                b=c;
+            
+        else
+            
+                a=c;
+                
+            
+            
+    }  
+    printf(" ROOT COULD NOT FOUND IN MAX ITERARTIONS ");
+    return NAN;
+    
+}
+
+int main()
+{
+    double a,b;
+    
+    printf(" enter interval endpoints a and b : ");
+    scanf("%lf%lf",&a,&b);
+    
+    double root=regulaFalsi(a,b);
+    
+    
+    return 0;
+}
+
+
