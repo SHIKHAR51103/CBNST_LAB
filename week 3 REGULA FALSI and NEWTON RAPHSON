@@ -78,3 +78,53 @@ int main()
 }
 
 
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+NEWTON RAPHSON :
+IT IS A NUMERICAL TECHNIQUE TO APPROXIMATE THE ROOTS OF A REAL VALUED FUNCTION . IT USE TANGENT LINES TO THE FUNCTION CURVE TO APPROXIMATE THE ROOT.
+
+
+
+ALGORITHM : 
+
+
+
+
+
+
+
+
+
+
+
+IMPLEMENTATION OF NEWTON RAPHSON METHOD BY C CODE 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
