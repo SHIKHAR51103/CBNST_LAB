@@ -20,60 +20,46 @@ IMPLEMENTATION OF REGULA FALSI  METHOD BY C PROGRAM
 #include <stdio.h>
 #include <math.h>
 
-#define EPSILON 1e-6
-#define MAX_ITER 100
-
-double f(double x){
-    return x*x-4;
-    
+// Function for which we want to find the root
+double function(double x) {
+    return x*x - 4; // Example function: x^2 - 4
 }
 
-double regulaFalsi(double a, double b){
-    double c, f_a, f_b, f_c;
-    
-    for(int i=0 ; i<MAX_ITER ; i++)
-    {
-        f_a=f(a);
-        f_b=f(b);
-        
-        c=(a*f_b - b*f_a)/ (f_b -f_a);
-        f_c=f_c;
-    
-    
-        if(fabs(f_c) < EPSILON){
-            printf(" ROOT FOUND AT X = %lf\n",c);
-            return c;
-            
+// Regula Falsi (False Position) method algorithm
+double regulaFalsi(double a, double b, double tolerance) {
+    double c;
+
+    while (1) {
+        c = (a * function(b) - b * function(a)) / (function(b) - function(a));
+
+        if (function(c) == 0.0 || fabs(b - a) < tolerance) {
+            break;
+        } else if (function(c) * function(a) < 0) {
+            b = c;
+        } else {
+            a = c;
         }
-    
-        if(f_a * f_c < 0)
-            
-                
-            
-                b=c;
-            
-        else
-            
-                a=c;
-                
-            
-            
-    }  
-    printf(" ROOT COULD NOT FOUND IN MAX ITERARTIONS ");
-    return NAN;
-    
+    }
+    return c;
 }
 
-int main()
-{
-    double a,b;
-    
-    printf(" enter interval endpoints a and b : ");
-    scanf("%lf%lf",&a,&b);
-    
-    double root=regulaFalsi(a,b);
-    
-    
+int main() {
+    double a, b, root, tolerance;
+
+    printf("Enter interval [a, b]: ");
+    scanf("%lf %lf", &a, &b);
+
+    printf("Enter tolerance: ");
+    scanf("%lf", &tolerance);
+
+    if (function(a) * function(b) >= 0) {
+        printf("Invalid interval! Function values at endpoints have same sign.\n");
+        return 1;
+    }
+
+    root = regulaFalsi(a, b, tolerance);
+    printf("Approximate root: %lf\n", root);
+
     return 0;
 }
 
@@ -105,6 +91,52 @@ ALGORITHM :
 
 
 IMPLEMENTATION OF NEWTON RAPHSON METHOD BY C CODE 
+
+#include <stdio.h>
+#include <math.h>
+
+// Function for which we want to find the root
+double function(double x) {
+    return x*x - 4; // Example function: x^2 - 4
+}
+
+// Derivative of the function
+double derivative(double x) {
+    return 2 * x; // Derivative of x^2 - 4
+}
+
+// Newton-Raphson method algorithm
+double newtonRaphson(double x0, double tolerance) {
+    double x = x0;
+
+    while (1) {
+        double fx = function(x);
+        double dfx = derivative(x);
+
+        if (fabs(fx) < tolerance) {
+            break;
+        }
+
+        x = x - fx / dfx;
+    }
+    return x;
+}
+
+int main() {
+    double x0, root, tolerance;
+
+    printf("Enter initial guess (x0): ");
+    scanf("%lf", &x0);
+
+    printf("Enter tolerance: ");
+    scanf("%lf", &tolerance);
+
+    root = newtonRaphson(x0, tolerance);
+    printf("Approximate root: %lf\n", root);
+
+    return 0;
+}
+
 
 
 
