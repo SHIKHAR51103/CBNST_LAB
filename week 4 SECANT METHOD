@@ -21,50 +21,42 @@ PROGRAM :
 #include <stdio.h>
 #include <math.h>
 
-#define EPSILON 1e-6
-
-// Define the function for which you want to find the root
-double f(double x) {
-    return x * x - 4; // Example function: x^2 - 4
+// Function for which we want to find the root
+double function(double x) {
+    return x*x - 4; // Example function: x^2 - 4
 }
 
-double secantMethod(double x0, double x1, int maxIter) {
-    double x2, f0, f1;
+// Secant method algorithm
+double secant(double x0, double x1, double tolerance) {
+    double x2;
 
-    for (int i = 0; i < maxIter; i++) {
-        f0 = f(x0);
-        f1 = f(x1);
+    while (1) {
+        double fx0 = function(x0);
+        double fx1 = function(x1);
 
-        x2 = x1 - (f1 * (x1 - x0)) / (f1 - f0);
+        x2 = x1 - (fx1 * (x1 - x0)) / (fx1 - fx0);
 
-        if (fabs(f(x2)) < EPSILON) {
-            printf("Root found at x = %lf\n", x2);
-            return x2;
+        if (fabs(fx1) < tolerance) {
+            break;
         }
 
         x0 = x1;
         x1 = x2;
     }
-
-    printf("Root could not be found within maximum iterations.\n");
-    return NAN;
+    return x2;
 }
 
 int main() {
-    double x0, x1;
-    int maxIter;
+    double x0, x1, root, tolerance;
 
-    printf("Enter initial guess x0: ");
-    scanf("%lf", &x0);
+    printf("Enter initial guesses (x0 and x1): ");
+    scanf("%lf %lf", &x0, &x1);
 
-    printf("Enter initial guess x1: ");
-    scanf("%lf", &x1);
+    printf("Enter tolerance: ");
+    scanf("%lf", &tolerance);
 
-    printf("Enter maximum number of iterations: ");
-    scanf("%d", &maxIter);
-
-    double root = secantMethod(x0, x1, maxIter);
+    root = secant(x0, x1, tolerance);
+    printf("Approximate root: %lf\n", root);
 
     return 0;
 }
-
