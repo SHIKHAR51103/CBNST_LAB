@@ -1,0 +1,200 @@
+GAUSS ELIMINATION METHOD : 
+
+
+
+ALGORITHM :
+
+
+
+
+PROGRAM :
+
+
+#include <stdio.h>
+#include <math.h>
+
+#define MAX_SIZE 10
+
+void printUpperTriangular(int n, double A[MAX_SIZE][MAX_SIZE]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j < i) {
+                printf("0.00\t");
+            } else {
+                printf("%.2f\t", A[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+void gaussianElimination(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE]) {
+    for (int k = 0; k < n; k++) {
+        // Find the pivot row
+        int max_row = k;
+        for (int i = k + 1; i < n; i++) {
+            if (fabs(A[i][k]) > fabs(A[max_row][k])) {
+                max_row = i;
+            }
+        }
+
+        // Swap the rows if needed
+        if (max_row != k) {
+            for (int j = 0; j < n; j++) {
+                double temp = A[k][j];
+                A[k][j] = A[max_row][j];
+                A[max_row][j] = temp;
+            }
+            double temp = b[k];
+            b[k] = b[max_row];
+            b[max_row] = temp;
+        }
+
+        // Eliminate the elements below the pivot
+        for (int i = k + 1; i < n; i++) {
+            double factor = A[i][k] / A[k][k];
+            for (int j = k; j < n; j++) {
+                A[i][j] -= factor * A[k][j];
+            }
+            b[i] -= factor * b[k];
+        }
+    }
+}
+
+void backSubstitution(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE], double x[MAX_SIZE]) {
+    for (int i = n - 1; i >= 0; i--) {
+        x[i] = b[i];
+        for (int j = i + 1; j < n; j++) {
+            x[i] -= A[i][j] * x[j];
+        }
+        x[i] /= A[i][i];
+    }
+}
+
+int main() {
+    int n;
+    double A[MAX_SIZE][MAX_SIZE];
+    double b[MAX_SIZE];
+    double x[MAX_SIZE];
+
+    printf("Enter the number of variables (up to %d): ", MAX_SIZE);
+    scanf("%d", &n);
+
+    printf("Enter the augmented matrix A|b:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%lf", &A[i][j]);
+        }
+        scanf("%lf", &b[i]);
+    }
+
+    gaussianElimination(n, A, b);
+    printf("\nUpper Triangular Matrix (A):\n");
+    printUpperTriangular(n, A);
+
+    backSubstitution(n, A, b, x);
+    printf("\nSolutions:\n");
+    for (int i = 0; i < n; i++) {
+        printf("x%d = %.2f\n", i + 1, x[i]);
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+GAUSS JORDAN METHOD : 
+
+
+
+
+
+
+ALGORITHM :
+
+
+
+
+
+
+
+PROGRAM : 
+
+#include <stdio.h>
+#include <math.h>
+
+#define MAX_SIZE 10
+
+void printMatrix(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%.2f\t", A[i][j]);
+        }
+        printf("| %.2f\n", b[i]);
+    }
+}
+
+void gaussJordan(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE]) {
+    for (int k = 0; k < n; k++) {
+        // Pivot element
+        double pivot = A[k][k];
+
+        // Divide the current row by the pivot element
+        for (int j = 0; j < n; j++) {
+            A[k][j] /= pivot;
+        }
+        b[k] /= pivot;
+
+        // Eliminate other rows
+        for (int i = 0; i < n; i++) {
+            if (i == k) {
+                continue;
+            }
+            double factor = A[i][k];
+            for (int j = 0; j < n; j++) {
+                A[i][j] -= factor * A[k][j];
+            }
+            b[i] -= factor * b[k];
+        }
+    }
+}
+
+int main() {
+    int n;
+    double A[MAX_SIZE][MAX_SIZE];
+    double b[MAX_SIZE];
+
+    printf("Enter the number of variables (up to %d): ", MAX_SIZE);
+    scanf("%d", &n);
+
+    printf("Enter the augmented matrix A|b:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%lf", &A[i][j]);
+        }
+        scanf("%lf", &b[i]);
+    }
+
+    gaussJordan(n, A, b);
+
+    printf("\nDiagonal Matrix (A):\n");
+    printMatrix(n, A, b);
+
+    printf("\nSolutions:\n");
+    for (int i = 0; i < n; i++) {
+        printf("x%d = %.2f\n", i + 1, b[i]);
+    }
+
+    return 0;
+}
+
+
+
+
+
