@@ -1,0 +1,80 @@
+
+#include <stdio.h>
+#include <math.h>
+
+#define MAX_SIZE 10
+#define TOLERANCE 1e-6
+#define MAX_ITERATIONS 100
+
+void printVector(int n, double x[]) {
+    for (int i = 0; i < n; i++) {
+        printf("x%d = %.6f\n", i + 1, x[i]);
+    }
+}
+
+int gaussSeidel(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE], double x[MAX_SIZE]) {
+    double temp[MAX_SIZE];
+    int iterations = 0;
+
+    while (iterations < MAX_ITERATIONS) {
+        for (int i = 0; i < n; i++) {
+            temp[i] = b[i];
+            for (int j = 0; j < n; j++) {
+                if (j != i) {
+                    temp[i] -= A[i][j] * x[j];
+                }
+            }
+            temp[i] /= A[i][i];
+        }
+
+        int converged = 1;
+        for (int i = 0; i < n; i++) {
+            if (fabs(x[i] - temp[i]) > TOLERANCE) {
+                converged = 0;
+                break;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            x[i] = temp[i];
+        }
+
+        iterations++;
+
+        if (converged) {
+            return iterations;
+        }
+    }
+
+    return -1; // Did not converge within the maximum number of iterations
+}
+
+int main() {
+    int n;
+    double A[MAX_SIZE][MAX_SIZE];
+    double b[MAX_SIZE];
+    double x[MAX_SIZE];
+
+    printf("Enter the number of variables (up to %d): ", MAX_SIZE);
+    scanf("%d", &n);
+
+    printf("Enter the augmented matrix A|b:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%lf", &A[i][j]);
+        }
+        scanf("%lf", &b[i]);
+        x[i] = 0; // Initial guess for the solution
+    }
+
+    int iterations = gaussSeidel(n, A, b, x);
+
+    if (iterations >= 0) {
+        printf("\nSolution after %d iterations:\n", iterations);
+        printVector(n, x);
+    } else {
+        printf("\nGauss-Seidel method did not converge within the maximum number of iterations.\n");
+    }
+
+    return 0;
+}
