@@ -146,87 +146,65 @@ ALGORITHM :
 # IMPLEMENTATION OF NEWTON FORWARD INTERPOLATION 
 
 
+
+
 #include <stdio.h>
-#include <math.h>
 
-#define MAX_SIZE 10
-#define TOLERANCE 1e-6
-#define MAX_ITERATIONS 100
 
-void printVector(int n, double x[]) {
+#define MAX_DATA_POINTS 10
+
+
+double newtonForwardInterpolation(int n, double x[], double y[], double xValue) {
+    double result = 0.0;
+    double u = (xValue - x[0]) / (x[1] - x[0]);
+    double factorial = 1.0;
+
+    
+    double dividedDifferences[MAX_DATA_POINTS][MAX_DATA_POINTS];
     for (int i = 0; i < n; i++) {
-        printf("x%d = %.6f\n", i + 1, x[i]);
+        dividedDifferences[i][0] = y[i];
     }
-}
 
-int gaussSeidel(int n, double A[MAX_SIZE][MAX_SIZE], double b[MAX_SIZE], double x[MAX_SIZE]) {
-    double temp[MAX_SIZE];
-    int iterations = 0;
-
-    while (iterations < MAX_ITERATIONS) {
-        for (int i = 0; i < n; i++) {
-            temp[i] = b[i];
-            for (int j = 0; j < n; j++) {
-                if (j != i) {
-                    temp[i] -= A[i][j] * x[j];
-                }
-            }
-            temp[i] /= A[i][i];
-        }
-
-        int converged = 1;
-        for (int i = 0; i < n; i++) {
-            if (fabs(x[i] - temp[i]) > TOLERANCE) {
-                converged = 0;
-                break;
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            x[i] = temp[i];
-        }
-
-        iterations++;
-
-        if (converged) {
-            return iterations;
+    for (int j = 1; j < n; j++) {
+        for (int i = 0; i < n - j; i++) {
+            dividedDifferences[i][j] = dividedDifferences[i + 1][j - 1] - dividedDifferences[i][j - 1];
         }
     }
 
-    return -1; // Did not converge within the maximum number of iterations
+    
+    for (int j = 0; j < n; j++) {
+        result += (u <= 0.0) ? dividedDifferences[0][j] : (u * dividedDifferences[0][j]) / factorial;
+        u = (u - j) * (xValue - x[0]) / (x[j + 1] - x[0]);
+        factorial *= (j + 1);
+    }
+
+    return result;
 }
 
 int main() {
     int n;
-    double A[MAX_SIZE][MAX_SIZE];
-    double b[MAX_SIZE];
-    double x[MAX_SIZE];
+    double x[MAX_DATA_POINTS], y[MAX_DATA_POINTS], xValue, result;
 
-    printf("Enter the number of variables (up to %d): ", MAX_SIZE);
+    printf("ENTER THE NO. OF DATA POINTS : ");
     scanf("%d", &n);
 
-    printf("Enter the augmented matrix A|b:\n");
+    if (n <= 0 || n > MAX_DATA_POINTS) {
+        printf("INVALID NO. OF DATA POINTS \n");
+        return 1;
+    }
+
+    printf("ENTER THE DATA POINTS (x y):\n");
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            scanf("%lf", &A[i][j]);
-        }
-        scanf("%lf", &b[i]);
-        x[i] = 0; // Initial guess for the solution
+        scanf("%lf %lf", &x[i], &y[i]);
     }
 
-    int iterations = gaussSeidel(n, A, b, x);
+    printf("ENTER THE X VALUE FOR INTERPOLATION : ");
+    scanf("%lf", &xValue);
 
-    if (iterations >= 0) {
-        printf("\nSolution after %d iterations:\n", iterations);
-        printVector(n, x);
-    } else {
-        printf("\nGauss-Seidel method did not converge within the maximum number of iterations.\n");
-    }
+    result = newtonForwardInterpolation(n, x, y, xValue);
+    printf("INTERPOLATION VALUE :  x = %.2lf: %.6lf\n", xValue, result);
 
     return 0;
 }
-
-
-
 
 
