@@ -1,0 +1,166 @@
+NEWTON BACKWARD INTERPOLATION : - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NEWTON BACKWARD INTERPOLATION 
+
+
+#include <stdio.h>
+
+#define MAX_DATA_POINTS 10
+
+double newtonBackwardInterpolation(int n, double x[], double y[], double xValue) {
+    double result = 0.0;
+    double h = x[1] - x[0];
+    double u = (xValue - x[n - 1]) / h;
+    double factorial = 1.0;
+
+    double dividedDifferences[MAX_DATA_POINTS][MAX_DATA_POINTS];
+    for (int i = 0; i < n; i++) {
+        dividedDifferences[i][0] = y[i];
+    }
+
+    for (int j = 1; j < n; j++) {
+        for (int i = n - 1; i >= j; i--) {
+            dividedDifferences[i][j] = dividedDifferences[i][j - 1] - dividedDifferences[i - 1][j - 1];
+        }
+    }
+
+    for (int j = 0; j < n; j++) {
+        result += (u >= 0.0) ? dividedDifferences[n - 1][j] : (u * dividedDifferences[n - 1][j]) / factorial;
+        u = (u + j) * (xValue - x[n - 1]) / (x[n - 1] - x[n - 1 - j]);
+        factorial *= (j + 1);
+    }
+
+    return result;
+}
+
+int main() {
+    int n;
+    double x[MAX_DATA_POINTS], y[MAX_DATA_POINTS], xValue, result;
+
+    printf("ENTER THE NO. OF DATA POINTS : ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > MAX_DATA_POINTS) {
+        printf("INVALID NO. OF DATA POINTS \n");
+        return 1;
+    }
+
+    printf("ENTER THE DATA POINTS (x y):\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%lf %lf", &x[i], &y[i]);
+    }
+
+    printf("ENTER THE X VALUE FOR INTERPOLATION : ");
+    scanf("%lf", &xValue);
+
+    result = newtonBackwardInterpolation(n, x, y, xValue);
+    printf("INTERPOLATION VALUE :  x = %.2lf: %.6lf\n", xValue, result);
+
+    return 0;
+}
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+LAGARANGES INTERPOLATION : -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# IMPLEMENT LAGARANGES INTERPOLATION 
+
+
+
+#include <stdio.h>
+
+#define MAX_DATA_POINTS 10
+
+double lagrangeInterpolation(int n, double x[], double y[], double xValue) {
+    double result = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        double term = y[i];
+        for (int j = 0; j < n; j++) {
+            if (i != j) {
+                term = term * (xValue - x[j]) / (x[i] - x[j]);
+            }
+        }
+        result += term;
+    }
+
+    return result;
+}
+
+int main()
+{
+    int n;
+    double x[MAX_DATA_POINTS] , y[MAX_DATA_POINTS] , xValue , result;
+    
+    printf(" ENTER THE NO. OF DATA POINTS  : ");
+    scanf("%d",&n);
+    
+    if (n <= 0 || n > MAX_DATA_POINTS) 
+    {
+        printf("INVALID NO. OF DATA POINTS \n");
+        return 1;
+    }
+
+    printf("ENTER THE DATA POINTS (x y):\n");
+    for (int i = 0; i < n; i++) 
+    {
+        scanf("%lf %lf", &x[i], &y[i]);
+    }
+
+    printf("ENTER THE X VALUE FOR INTERPOLATION : ");
+    scanf("%lf", &xValue);
+
+    result = lagrangeInterpolation(n, x, y, xValue);
+    printf("INTERPOLATION VALUE :  x = %.2lf: %.6lf\n", xValue, result);
+
+    return 0;
+}
+
+
+
+
+OUTPUT :
+
+ENTER THE NO. OF DATA POINTS  : 4
+ENTER THE DATA POINTS (x y):
+5 12
+6 13
+9 14
+11 16
+ENTER THE X VALUE FOR INTERPOLATION : 10
+INTERPOLATION VALUE :  x = 10.00: 14.666667
