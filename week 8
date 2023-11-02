@@ -55,7 +55,7 @@ Q2. WRITE A C PROGRAM FOR SIMPSON 1/3 RULE .
 
 double function(double x) {
     // Define your function here
-    return x * x *x;
+    return 1/(1+x*x);
 }
 
 
@@ -107,7 +107,7 @@ Q3. WRITE A C PROGRAM FOR SIMPSON 3/8 RULE .
 
 double function(double x) {
     
-    return x * x * x;
+    return 1/(1+x*x);
 }
 
 
